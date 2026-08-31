@@ -4,9 +4,9 @@ from environment import get_gravity, get_wind_velocity
 from config import AIR_DENSITY, DRAG_COEFFICIENT, REFERENCE_AREA, MASS
 
 
-def calculate_drag(velocity):
-
-    wind_velocity = get_wind_velocity()
+def calculate_drag(velocity,wind_velocity=None):
+    if wind_velocity is None:
+        wind_velocity = get_wind_velocity()
 
     relative_velocity = velocity - wind_velocity
 
@@ -30,11 +30,14 @@ def calculate_drag(velocity):
     return drag_force
 
 
-def calculate_acceleration(velocity):
+def calculate_acceleration(velocity,wind_velocity=None):
 
     gravity = get_gravity()
 
-    drag_force = calculate_drag(velocity)
+    drag_force = calculate_drag(
+        velocity,
+         wind_velocity
+     )
 
     drag_acceleration = drag_force / MASS
 

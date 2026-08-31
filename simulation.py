@@ -5,7 +5,7 @@ from physics import calculate_acceleration
 from sensors import measure_velocity
 
 
-def run_simulation():
+def run_simulation(wind_velocity=None):
     true_velocities =[]
     measured_velocities = []
     position = np.array(INITIAL_POSITION, dtype=float)
@@ -21,7 +21,10 @@ def run_simulation():
         positions.append(position.copy())
         times.append(time)
 
-        acceleration = calculate_acceleration(velocity)
+        acceleration = calculate_acceleration(
+            velocity,
+            wind_velocity
+            )
 
         measured_velocity = measure_velocity(velocity)
         true_velocities.append(velocity.copy())
