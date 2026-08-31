@@ -4,15 +4,19 @@ import matplotlib.pyplot as plt
 def plot_trajectory(positions):
 
     x = positions[:, 0]
+    y = positions[:, 1]
     z = positions[:, 2]
 
-    plt.plot(x, z)
+    fig = plt.figure(figsize=(10, 7))
 
-    plt.xlabel("X Position")
-    plt.ylabel("Z Position")
+    ax = fig.add_subplot(111, projection="3d")
 
-    plt.title("Simulated Trajectory")
+    ax.plot(x, y, z)
 
-    plt.grid()
+    ax.set_xlabel("X Position")
+    ax.set_ylabel("Y Position")
+    ax.set_zlabel("Z Position")
+
+    ax.set_title("3D Trajectory Simulation")
 
     plt.show()
