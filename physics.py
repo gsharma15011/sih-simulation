@@ -1,12 +1,16 @@
 import numpy as np
 
-from environment import get_gravity
+from environment import get_gravity, get_wind_velocity
 from config import AIR_DENSITY, DRAG_COEFFICIENT, REFERENCE_AREA, MASS
 
 
 def calculate_drag(velocity):
 
-    speed = np.linalg.norm(velocity)
+    wind_velocity = get_wind_velocity()
+
+    relative_velocity = velocity - wind_velocity
+
+    speed = np.linalg.norm(relative_velocity)
 
     if speed == 0:
         return np.zeros(3)
@@ -19,7 +23,7 @@ def calculate_drag(velocity):
         * speed**2
     )
 
-    drag_direction = -velocity / speed
+    drag_direction = -relative_velocity / speed
 
     drag_force = drag_magnitude * drag_direction
 
