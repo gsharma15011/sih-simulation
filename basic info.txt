@@ -1,0 +1,23 @@
+VERSION 1
+Basic 3D motion
+     ↓
+VERSION 2
++ Gravity
+     ↓
+VERSION 3
++ Air drag
+     ↓
+VERSION 4
++ Wind disturbance
+     ↓
+VERSION 5
++ Sensor noise / uncertainty
+     ↓
+VERSION 6
++ Monte Carlo
+     ↓
+VERSION 7
+Baseline vs corrected simulation
+     ↓
+VERSION 8
+Connect to team's estimation/control modules
