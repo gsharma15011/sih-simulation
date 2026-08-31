@@ -19,7 +19,7 @@ def run_simulation():
         positions.append(position.copy())
         times.append(time)
 
-        acceleration = calculate_acceleration()
+        acceleration = calculate_acceleration(velocity)
 
         velocity = velocity + acceleration * DT
 
