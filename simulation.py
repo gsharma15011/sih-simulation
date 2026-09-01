@@ -1,47 +1,105 @@
 import numpy as np
 
-from config import DT, TOTAL_TIME, INITIAL_POSITION, INITIAL_VELOCITY
+from config import (
+    INITIAL_POSITION,
+    INITIAL_VELOCITY,
+    TIME_STEP,
+    MAX_TIME
+)
+
 from physics import calculate_acceleration
 from sensors import measure_velocity
 
 
-def run_simulation(wind_velocity=None):
-    true_velocities =[]
-    measured_velocities = []
-    position = np.array(INITIAL_POSITION, dtype=float)
-    velocity = np.array(INITIAL_VELOCITY, dtype=float)
+def run_simulation(
+    initial_velocity=None,
+    wind_velocity=None
+):
 
-    positions = []
-    times = []
+    # ---------------------------------------------
+    # INITIAL CONDITIONS
+    # ---------------------------------------------
+
+    position = np.array(
+        INITIAL_POSITION,
+        dtype=float
+    )
+
+    if initial_velocity is None:
+        initial_velocity = INITIAL_VELOCITY
+
+    velocity = np.array(
+        initial_velocity,
+        dtype=float
+    )
 
     time = 0.0
 
-    while time <= TOTAL_TIME:
+
+    # ---------------------------------------------
+    # STORAGE
+    # ---------------------------------------------
+
+    times = []
+    positions = []
+
+    true_velocities = []
+    measured_velocities = []
+
+
+    # ---------------------------------------------
+    # SIMULATION LOOP
+    # ---------------------------------------------
+
+    while time <= MAX_TIME and position[2] >= 0:
+
+        times.append(time)
 
         positions.append(position.copy())
-        times.append(time)
+
+        true_velocities.append(
+            velocity.copy()
+        )
+
+        measured_velocity = measure_velocity(
+            velocity
+        )
+
+        measured_velocities.append(
+            measured_velocity
+        )
+
+
+        # Calculate acceleration
 
         acceleration = calculate_acceleration(
             velocity,
             wind_velocity
-            )
+        )
 
-        measured_velocity = measure_velocity(velocity)
-        true_velocities.append(velocity.copy())
-        velocity = velocity + acceleration * DT
-        measured_velocities.append(measured_velocity)
 
-        position = position + velocity * DT
+        # Update velocity
 
-        if position[2]<0:
-            break
+        velocity = velocity + acceleration * TIME_STEP
 
-        time = time + DT
+
+        # Update position
+
+        position = position + velocity * TIME_STEP
+
+
+        # Update time
+
+        time += TIME_STEP
+
+
+    # ---------------------------------------------
+    # RETURN RESULTS
+    # ---------------------------------------------
 
     return (
-        np.array(times), 
+        np.array(times),
         np.array(positions),
-        np.array(true_velocities), 
+        np.array(true_velocities),
         np.array(measured_velocities)
-
     )
