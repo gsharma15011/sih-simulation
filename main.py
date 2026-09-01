@@ -1,3 +1,5 @@
+from simulation import run_simulation
+
 from monte_carlo import run_monte_carlo
 
 from metrics import (
@@ -10,45 +12,85 @@ from metrics import (
     calculate_horizontal_distance
 )
 
-from simulation import run_simulation
+from plots import plot_simulation_results
 
 
-# -------------------------------------------------
+# =================================================
 # SINGLE SIMULATION
-# -------------------------------------------------
+# =================================================
 
 times, positions, true_velocities, measured_velocities = run_simulation()
 
-print("\n========== SINGLE SIMULATION ==========")
+
+# =================================================
+# SINGLE SIMULATION METRICS
+# =================================================
 
 max_height = calculate_max_height(positions)
+
 total_time = calculate_total_time(times)
+
 horizontal_distance = calculate_horizontal_distance(positions)
 
-print("Maximum height:", max_height)
-print("Total simulation time:", total_time)
-print("Horizontal distance:", horizontal_distance)
 
-
-# -------------------------------------------------
+# =================================================
 # MONTE CARLO SIMULATION
-# -------------------------------------------------
+# =================================================
 
-results = run_monte_carlo(100)
+num_trials = 100
+
+results = run_monte_carlo(num_trials)
+
+
+# =================================================
+# MONTE CARLO METRICS
+# =================================================
 
 mean = calculate_mean(results)
+
 std = calculate_standard_deviation(results)
+
 minimum = calculate_minimum(results)
+
 maximum = calculate_maximum(results)
 
-print("\n========== MONTE CARLO ANALYSIS ==========")
 
-print("Number of trials:", len(results))
+# =================================================
+# PRINT RESULTS
+# =================================================
 
-print("Mean final position:", mean)
+print()
+print("==========================================")
+print("       TRAJECTORY SIMULATION RESULTS")
+print("==========================================")
 
-print("Standard deviation:", std)
+print(f"Maximum height:       {max_height:.3f}")
+print(f"Simulation time:      {total_time:.3f}")
+print(f"Horizontal distance:  {horizontal_distance:.3f}")
 
-print("Minimum final position:", minimum)
 
-print("Maximum final position:", maximum)
+print()
+print("==========================================")
+print("       MONTE CARLO ANALYSIS")
+print("==========================================")
+
+print(f"Number of trials:     {num_trials}")
+
+print(f"Mean position:        {mean}")
+
+print(f"Standard deviation:   {std}")
+
+print(f"Minimum position:     {minimum}")
+
+print(f"Maximum position:     {maximum}")
+
+
+# =================================================
+# VISUALIZATION
+# =================================================
+
+plot_simulation_results(
+    positions,
+    results,
+    mean
+)
