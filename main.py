@@ -4,11 +4,35 @@ from metrics import (
     calculate_mean,
     calculate_standard_deviation,
     calculate_minimum,
-    calculate_maximum
+    calculate_maximum,
+    calculate_max_height,
+    calculate_total_time,
+    calculate_horizontal_distance
 )
 
-from plots import plot_monte_carlo_results
+from simulation import run_simulation
 
+
+# -------------------------------------------------
+# SINGLE SIMULATION
+# -------------------------------------------------
+
+times, positions, true_velocities, measured_velocities = run_simulation()
+
+print("\n========== SINGLE SIMULATION ==========")
+
+max_height = calculate_max_height(positions)
+total_time = calculate_total_time(times)
+horizontal_distance = calculate_horizontal_distance(positions)
+
+print("Maximum height:", max_height)
+print("Total simulation time:", total_time)
+print("Horizontal distance:", horizontal_distance)
+
+
+# -------------------------------------------------
+# MONTE CARLO SIMULATION
+# -------------------------------------------------
 
 results = run_monte_carlo(100)
 
@@ -17,12 +41,14 @@ std = calculate_standard_deviation(results)
 minimum = calculate_minimum(results)
 maximum = calculate_maximum(results)
 
+print("\n========== MONTE CARLO ANALYSIS ==========")
 
 print("Number of trials:", len(results))
-print("Mean position:", mean)
+
+print("Mean final position:", mean)
+
 print("Standard deviation:", std)
-print("Minimum position:", minimum)
-print("Maximum position:", maximum)
 
+print("Minimum final position:", minimum)
 
-plot_monte_carlo_results(results, mean)
+print("Maximum final position:", maximum)
