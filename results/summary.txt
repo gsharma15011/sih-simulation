@@ -1,0 +1,16 @@
+TRAJECTORY SIMULATION REPORT
+============================
+
+Scenario: Baseline
+Monte Carlo Trials: 100
+
+SINGLE SIMULATION
+-----------------
+Maximum Height: 39.0145
+Simulation Time: 4.8200
+Horizontal Distance: 48.3720
+
+MONTE CARLO ANALYSIS
+--------------------
+Mean Position: [54.80438825 22.20679806  0.17269416]
+Standard Deviation: [0.26326829 0.20658076 0.02887764]
