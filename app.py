@@ -1,4 +1,5 @@
 import streamlit as st
+import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -6,6 +7,7 @@ import matplotlib.pyplot as plt
 from scenarios import get_scenario
 from simulation import run_simulation
 from monte_carlo import run_monte_carlo
+from visualization import create_3d_visualization
 
 from metrics import (
     calculate_mean,
@@ -374,57 +376,25 @@ if "results" in st.session_state:
 
     with tab1:
 
-        st.subheader("3D Simulated Trajectory")
 
-        st.write(
+       st.subheader("3D Simulated Trajectory")
+
+       st.write(
             "The trajectory is calculated by numerically updating "
             "position and velocity over small time intervals."
         )
 
-        fig = plt.figure(figsize=(10, 7))
-
-        ax = fig.add_subplot(
-            111,
-            projection="3d"
+        # Interactive 3D Digital Twin
+       fig = create_3d_visualization(
+            positions,
+            title="3D Trajectory Digital Twin"
         )
 
-        ax.plot(
-            positions[:, 0],
-            positions[:, 1],
-            positions[:, 2],
-            linewidth=2,
-            label="Trajectory"
+       st.plotly_chart(
+            fig,
+            use_container_width=True,
+            key="trajectory_plot"
         )
-
-        ax.scatter(
-            positions[0, 0],
-            positions[0, 1],
-            positions[0, 2],
-            s=80,
-            marker="o",
-            label="Start"
-        )
-
-        ax.scatter(
-            positions[-1, 0],
-            positions[-1, 1],
-            positions[-1, 2],
-            s=100,
-            marker="X",
-            label="End"
-        )
-
-        ax.set_xlabel("X Position")
-        ax.set_ylabel("Y Position")
-        ax.set_zlabel("Z Position")
-
-        ax.set_title(
-            "3D Numerical Trajectory Simulation"
-        )
-
-        ax.legend()
-
-        st.pyplot(fig)
 
 
     # =====================================================
