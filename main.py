@@ -15,6 +15,13 @@ from metrics import (
 
 from plots import plot_simulation_results
 
+from results import (
+    save_trajectory,
+    save_monte_carlo_results,
+    save_summary,
+    save_text_report
+)
+
 
 # =================================================
 # SELECT SCENARIO
@@ -31,8 +38,16 @@ print("          SELECTED SCENARIO")
 print("==========================================")
 
 print("Scenario:", scenario["name"])
-print("Initial velocity:", scenario["initial_velocity"])
-print("Wind velocity:", scenario["wind_velocity"])
+
+print(
+    "Initial velocity:",
+    scenario["initial_velocity"]
+)
+
+print(
+    "Wind velocity:",
+    scenario["wind_velocity"]
+)
 
 
 # =================================================
@@ -54,9 +69,13 @@ print("Wind velocity:", scenario["wind_velocity"])
 # SINGLE SIMULATION METRICS
 # =================================================
 
-max_height = calculate_max_height(positions)
+max_height = calculate_max_height(
+    positions
+)
 
-total_time = calculate_total_time(times)
+total_time = calculate_total_time(
+    times
+)
 
 horizontal_distance = calculate_horizontal_distance(
     positions
@@ -90,7 +109,7 @@ maximum = calculate_maximum(results)
 
 
 # =================================================
-# PRINT SINGLE SIMULATION RESULTS
+# PRINT RESULTS
 # =================================================
 
 print()
@@ -98,9 +117,15 @@ print("==========================================")
 print("       TRAJECTORY SIMULATION RESULTS")
 print("==========================================")
 
-print(f"Maximum height:       {max_height:.3f}")
+print(
+    f"Maximum height:       "
+    f"{max_height:.3f}"
+)
 
-print(f"Simulation time:      {total_time:.3f}")
+print(
+    f"Simulation time:      "
+    f"{total_time:.3f}"
+)
 
 print(
     f"Horizontal distance:  "
@@ -108,24 +133,98 @@ print(
 )
 
 
-# =================================================
-# PRINT MONTE CARLO RESULTS
-# =================================================
-
 print()
 print("==========================================")
 print("       MONTE CARLO ANALYSIS")
 print("==========================================")
 
-print(f"Number of trials:     {NUM_TRIALS}")
+print(
+    f"Number of trials:     "
+    f"{NUM_TRIALS}"
+)
 
-print(f"Mean position:        {mean}")
+print(
+    f"Mean position:        "
+    f"{mean}"
+)
 
-print(f"Standard deviation:   {std}")
+print(
+    f"Standard deviation:   "
+    f"{std}"
+)
 
-print(f"Minimum position:     {minimum}")
+print(
+    f"Minimum position:     "
+    f"{minimum}"
+)
 
-print(f"Maximum position:     {maximum}")
+print(
+    f"Maximum position:     "
+    f"{maximum}"
+)
+
+
+# =================================================
+# SAVE RESULTS
+# =================================================
+
+trajectory_file = save_trajectory(
+    times,
+    positions
+)
+
+monte_carlo_file = save_monte_carlo_results(
+    results
+)
+
+summary_file = save_summary(
+    scenario_name=scenario["name"],
+    num_trials=NUM_TRIALS,
+    max_height=max_height,
+    total_time=total_time,
+    horizontal_distance=horizontal_distance,
+    mean=mean,
+    std=std,
+    minimum=minimum,
+    maximum=maximum
+)
+
+report_file = save_text_report(
+    scenario_name=scenario["name"],
+    num_trials=NUM_TRIALS,
+    max_height=max_height,
+    total_time=total_time,
+    horizontal_distance=horizontal_distance,
+    mean=mean,
+    std=std
+)
+
+
+# =================================================
+# SHOW SAVED FILES
+# =================================================
+
+print()
+print("==========================================")
+print("          RESULTS SAVED")
+print("==========================================")
+
+print("Trajectory:", trajectory_file)
+
+print(
+    "Monte Carlo:",
+    monte_carlo_file
+)
+
+print(
+    "Summary:",
+    summary_file
+)
+
+print(
+    "Report:",
+    report_file
+)
 
 
 # =================================================
