@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from unity_export import export_trajectory
 
 from scenarios import get_scenario
 from simulation import run_simulation
@@ -172,6 +173,10 @@ if run_button:
             ) = run_simulation(
                 initial_velocity=scenario["initial_velocity"],
                 wind_velocity=scenario["wind_velocity"]
+            )
+            export_trajectory(
+                  times,
+                 positions
             )
 
 
