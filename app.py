@@ -203,11 +203,14 @@ if run_button:
             # MONTE CARLO SIMULATION
             # ---------------------------------------------
 
-            monte_carlo_results = run_monte_carlo(
+            monte_carlo_data = run_monte_carlo(
                 num_trials=num_trials,
                 initial_velocity=scenario["initial_velocity"],
                 base_wind_velocity=scenario["wind_velocity"]
             )
+
+            monte_carlo_results = monte_carlo_data["final_positions"]
+            monte_carlo_trajectories = monte_carlo_data["trajectories"]
 
 
             # ---------------------------------------------
@@ -230,8 +233,7 @@ if run_button:
 
             maximum = calculate_maximum(
                 monte_carlo_results
-            )
-
+)
 
             # ---------------------------------------------
             # SAVE RESULTS
@@ -280,6 +282,8 @@ if run_button:
                 "positions": positions,
 
                 "monte_carlo": monte_carlo_results,
+                
+                "monte_carlo_trajectories": monte_carlo_trajectories,
 
                 "max_height": max_height,
 

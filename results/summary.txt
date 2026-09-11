@@ -12,5 +12,5 @@ Horizontal Distance: 48.3720
 
 MONTE CARLO ANALYSIS
 --------------------
-Mean Position: [54.81544036 22.26281093  0.1756107 ]
-Standard Deviation: [0.29953248 0.20463162 0.0328873 ]
+Mean Position: [54.79243522 22.21629435  0.16886919]
+Standard Deviation: [0.32598621 0.21956237 0.03625342]

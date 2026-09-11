@@ -51,7 +51,9 @@ def run_simulation(
     # SIMULATION LOOP
     # ---------------------------------------------
 
-    while time <= MAX_TIME and position[2] >= 0:
+    while time <= MAX_TIME:
+
+        # Store current state
 
         times.append(time)
 
@@ -70,7 +72,9 @@ def run_simulation(
         )
 
 
-        # Calculate acceleration
+        # -----------------------------------------
+        # CALCULATE ACCELERATION
+        # -----------------------------------------
 
         acceleration = calculate_acceleration(
             velocity,
@@ -78,19 +82,87 @@ def run_simulation(
         )
 
 
-        # Update velocity
+        # -----------------------------------------
+        # CALCULATE NEXT STATE
+        # -----------------------------------------
 
-        velocity = velocity + acceleration * TIME_STEP
+        next_velocity = (
+            velocity +
+            acceleration * TIME_STEP
+        )
+
+        next_position = (
+            position +
+            next_velocity * TIME_STEP
+        )
+
+        next_time = time + TIME_STEP
 
 
-        # Update position
+        # -----------------------------------------
+        # GROUND INTERSECTION
+        # -----------------------------------------
 
-        position = position + velocity * TIME_STEP
+        if (
+            position[2] > 0
+            and next_position[2] <= 0
+        ):
+
+            # Fraction of the time step at which
+            # the trajectory reaches ground
+
+            alpha = (
+                position[2] /
+                (position[2] - next_position[2])
+            )
+
+            # Exact impact position
+
+            impact_position = (
+                position +
+                alpha *
+                (next_position - position)
+            )
+
+            # Force exact ground level
+
+            impact_position[2] = 0.0
+
+            # Exact impact time
+
+            impact_time = (
+                time +
+                alpha * TIME_STEP
+            )
+
+            # Store impact point
+
+            times.append(impact_time)
+
+            positions.append(
+                impact_position.copy()
+            )
+
+            true_velocities.append(
+                next_velocity.copy()
+            )
+
+            measured_velocities.append(
+                measure_velocity(next_velocity)
+            )
+
+            break
 
 
-        # Update time
+        # -----------------------------------------
+        # UPDATE STATE
+        # -----------------------------------------
 
-        time += TIME_STEP
+        velocity = next_velocity
+
+        position = next_position
+
+        time = next_time
 
 
     # ---------------------------------------------

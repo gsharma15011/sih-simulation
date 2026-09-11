@@ -10,10 +10,10 @@ def run_monte_carlo(
 ):
 
     results = []
+    trajectories = []
 
     if base_wind_velocity is None:
         base_wind_velocity = [2.0, 1.5, 0.0]
-
 
     for trial in range(num_trials):
 
@@ -37,7 +37,6 @@ def run_monte_carlo(
             base_wind_velocity[2]
         ]
 
-
         # -----------------------------------------
         # RUN SIMULATION
         # -----------------------------------------
@@ -52,7 +51,6 @@ def run_monte_carlo(
             wind_velocity=wind_velocity
         )
 
-
         # -----------------------------------------
         # STORE FINAL POSITION
         # -----------------------------------------
@@ -61,5 +59,13 @@ def run_monte_carlo(
 
         results.append(final_position)
 
+        # -----------------------------------------
+        # STORE COMPLETE TRAJECTORY
+        # -----------------------------------------
 
-    return np.array(results)
+        trajectories.append(positions)
+
+    return {
+        "final_positions": np.array(results),
+        "trajectories": trajectories
+    }
